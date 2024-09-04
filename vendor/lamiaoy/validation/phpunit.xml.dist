@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit colors="true" bootstrap="vendor/autoload.php">
+    <testsuites>
+        <testsuite name="Application Test Suite">
+            <directory>./Lamia/IntegrationCore/Tests/</directory>
+        </testsuite>
+    </testsuites>
+<filter>
+  <whitelist>
+      <directory suffix=".php">./Lamia/IntegrationCore/Validation</directory>
+  </whitelist>
+</filter>
+</phpunit>

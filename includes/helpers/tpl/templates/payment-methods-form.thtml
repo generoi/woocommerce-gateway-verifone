@@ -1,0 +1,21 @@
+<div class="verifone-payment">
+    <label for="verifone-payment-method">{{ messages.selectMethod }}</label>
+    <select id="verifone-payment-method" name="verifone-payment-method">
+        { foreach paymentMethods as paymentMethod }
+        <option value="{{ paymentMethod.code }}" data-type="{{ paymentMethod.type }}">{{ paymentMethod.displayName }}</option>
+        { endforeach }
+    </select>
+
+    { if ({{allowCC}}) }
+    <div class="verifone-save-payment-method-wrapper">
+        <input type="checkbox" id="verifone-save-payment-method" name="verifone-save-payment-method"/>
+        <label for="verifone-save-payment-method">
+            <span>{{ messages.rememberMethod }}</span>
+        </label>
+        <span class="verifone-payment-saved-info">{{ messages.rememberMeInfo }}</span>
+    </div>
+    { endif }
+</div>
+<div class="verifone-payment-message">
+    <p>{{ messages.redirectMessage }}</p>
+</div>

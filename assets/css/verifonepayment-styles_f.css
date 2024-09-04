@@ -1,0 +1,8 @@
+img.verifonepayment-logo {
+    width: 105px;
+    margin-top: 7px;
+}
+
+select#verifone-payment-method {
+    min-width: 150px;
+}

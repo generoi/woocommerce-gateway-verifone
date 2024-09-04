@@ -1,0 +1,785 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: woocommerce-gateway-verifone\n"
+"POT-Creation-Date: 2021-08-19 18:40+0300\n"
+"PO-Revision-Date: 2021-08-20 11:20+0300\n"
+"Last-Translator: lauri <lauri@lamia.fi>\n"
+"Language-Team: \n"
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.1\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: includes/class-wc-gateway-verifone.php:36
+#: includes/wc-verifone-settings.php:38
+msgid "Verifone Payment"
+msgstr "Verifone Payment"
+
+#: includes/class-wc-gateway-verifone.php:38
+#, php-format
+msgid ""
+"Verifone payment. For more information please see %1$sVerifone page%2$s."
+msgstr ""
+"Verifone verkkomaksut. Lisää tietoa saat Verifonen %1$sVverkkosivuilta%2$s."
+
+#: includes/class-wc-gateway-verifone.php:110
+msgid "Select payment method"
+msgstr "Valitse maksutapa"
+
+#: includes/class-wc-gateway-verifone.php:111
+msgid "Remember payment method."
+msgstr "Tallenna maksutapa"
+
+#: includes/class-wc-gateway-verifone.php:113
+msgid ""
+"You will be redirected to Verifone Payment service to complete your order."
+msgstr "Sinut ohjataan Verifonen maksuportaaliin viimeistelemään ostos."
+
+#: includes/class-wc-gateway-verifone.php:129
+msgid ""
+"You will be redirect to Verifone Payment Service to process adding payment "
+"card."
+msgstr "Sinut ohjataa Verifonen portaaliin lisäämään maksukortti."
+
+#: includes/class-wc-gateway-verifone.php:247
+msgid ""
+"Attempted refund, but rejected by Verifone.Possible reasons: payment not "
+"committed, payment has already been refunded or similar.Please try again "
+"later, or check status from Verifones TCS portal."
+msgstr ""
+"Yritettiin palautusta, mutta pyyntö hylättiin Verifonelta. Mahdollisia "
+"syitä: maksuvaraus on epäonnistunut, maksu on jo palautettu tai vastaavaa. "
+"Ole hyvä ja yritä uudelleen tai tarkista tilanne Verifonen TCS portaalista."
+
+#: includes/class-wc-gateway-verifone.php:258
+#, php-format
+msgid "Refunded %1$s - Refund ID: %2$s - Reason: %3$s"
+msgstr "Hyvitetty %1$s - Hyvityksen ID: %2$s - Syy: %3$s"
+
+#: includes/class-wc-gateway-verifone.php:277
+msgid "There was a problem during adding the card."
+msgstr "Kortin lisäämisessä tapahtui virhe."
+
+#: includes/class-wc-gateway-verifone.php:308
+msgid "Configuration summary"
+msgstr "Asetusten yhteenveto"
+
+#: includes/helpers/core/wc-verifone-generator.php:30
+#: includes/helpers/core/wc-verifone-generator.php:53
+msgid "Problem with generating new keys."
+msgstr "Avainten generoinnissa tapahtui virhe."
+
+#: includes/helpers/core/wc-verifone-generator.php:30
+msgid "Please refresh the page and try again."
+msgstr "Ole hyvä ja päivitä sivu yrittääksesi uudestaan."
+
+#: includes/helpers/core/wc-verifone-generator.php:44
+msgid "Keys are generated correctly. Please refresh or save the configuration."
+msgstr "Avaimet generoitu onnistuneesti. Ole hyvä ja tallenna asetukset."
+
+#: includes/helpers/core/wc-verifone-savedPaymentMethods.php:102
+msgid "Card adding canceled."
+msgstr "Kortin lisäys peruttu."
+
+#: includes/helpers/core/wc-verifone-savedPaymentMethods.php:103
+msgid "Server error, please try again later."
+msgstr "Virhe tiedonkäsittelyssä, ole hyvä ja yritä myöhemmin uudelleen."
+
+#: includes/helpers/core/wc-verifone-savedPaymentMethods.php:104
+msgid "Your card has expired."
+msgstr "Kortti on vanhentunut."
+
+#: includes/helpers/core/wc-verifone-savedPaymentMethods.php:105
+msgid "Your card has been rejected."
+msgstr "Kortti hylättiin."
+
+#: includes/helpers/core/wc-verifone-savedPaymentMethods.php:106
+msgid "Your card has been successfully added."
+msgstr "Kortti tallennettu onnistuneesti."
+
+#: includes/helpers/wc-verifone-core.php:153
+msgid "Redirecting to Verifone Payment"
+msgstr "Ohjataan Verifonen verkkomaksuihin"
+
+#: includes/helpers/wc-verifone-data.php:402
+msgid "Shipping via"
+msgstr "Toimitus"
+
+#: includes/helpers/wc-verifone-data.php:469
+#, php-format
+msgid "Multiple items - tax %s"
+msgstr "Useampia tuotteita - vero %s"
+
+#: includes/helpers/wc-verifone-data.php:494
+msgid "Discount"
+msgstr "Alennus"
+
+#: includes/helpers/wc-verifone-observer.php:99
+msgid "Verifone: Check payment status"
+msgstr "Verifone: Tarkasta maksun tila"
+
+#: includes/helpers/wc-verifone-observer.php:114
+#, php-format
+msgid "Order status is now [%s] because payment for this order was found."
+msgstr "Tilauksen tila on nyt [%s]. Tilaukselle löydettiin maksusuoritus."
+
+#: includes/helpers/wc-verifone-observer.php:119
+msgid ""
+"Order status is now [pending] because payment for this order was NOT found."
+msgstr "Tilauksen tila on nyt [pending] koska maksusuoritusta ei löytynyt."
+
+#: includes/helpers/wc-verifone-observer.php:124
+msgid ""
+"Order status is now [cancel] because payment for this order was cancelled"
+msgstr "Tilauksen tila on nyt [cancel] koska maksusuoritusta oli peruttu."
+
+#: includes/helpers/wc-verifone-observer.php:131
+msgid "Manually check order payment status result: "
+msgstr "Tarkasta maksun tila manuaalisesti:"
+
+#: includes/helpers/wc-verifone-observer.php:133
+msgid "Cron check order payment status result: "
+msgstr "Tarkista maksun tilan ajastetulla toiminnolla:"
+
+#: includes/helpers/wc-verifone-payment.php:42
+#: includes/helpers/wc-verifone-payment.php:356
+#, php-format
+msgid "Payment captured. Transaction id: %s, transaction amount: %s"
+msgstr "Maksu vastaanotettu. Transaktion id: %s, summa: %s"
+
+#: includes/helpers/wc-verifone-payment.php:179
+msgid "Security Error. Illegal access detected"
+msgstr "Tietoturvavirhe."
+
+#: includes/helpers/wc-verifone-payment.php:185
+#, php-format
+msgid "Payment was canceled. Cancel reason: %s"
+msgstr "Maksusuoritus peruttiin. Peruutuksen syy: %s"
+
+#: includes/helpers/wc-verifone-summary.php:21
+msgid "Mode"
+msgstr "Toimintatapa"
+
+#: includes/helpers/wc-verifone-summary.php:22
+#: includes/wc-verifone-settings.php:48
+msgid "Production"
+msgstr "Tuotantoympäristö"
+
+#: includes/helpers/wc-verifone-summary.php:22
+#: includes/wc-verifone-settings.php:47
+msgid "Test"
+msgstr "Testi"
+
+#: includes/helpers/wc-verifone-summary.php:28
+msgid "Verifone Payment merchant agreement code"
+msgstr "Verifonen kauppiastunnus"
+
+#: includes/helpers/wc-verifone-summary.php:34
+msgid "Default test merchant agreement uses"
+msgstr "Esiasennettu testikauppiaan sopimustunnus"
+
+#: includes/helpers/wc-verifone-summary.php:41
+msgid "Delayed success url"
+msgstr "Viivästyneen maksun paluuosoite"
+
+#: includes/helpers/wc-verifone-summary.php:43
+msgid ""
+"This is the url that you need to copy to payment provider settings in their "
+"portal."
+msgstr "Kopioi tämä osoite palveluntarjoajan portaalin asetuksiin."
+
+#: includes/helpers/wc-verifone-summary.php:50
+msgid "Key handling mode"
+msgstr "Avaimien käsittelytapa"
+
+#: includes/helpers/wc-verifone-summary.php:51
+#: includes/wc-verifone-settings.php:71
+msgid "Automatic (Simple)"
+msgstr "Automaattinen(helppo)"
+
+#: includes/helpers/wc-verifone-summary.php:51
+#: includes/wc-verifone-settings.php:72
+msgid "Manual (Advanced)"
+msgstr "Manuaalinen(edistynyt)"
+
+#: includes/helpers/wc-verifone-summary.php:57
+msgid "Path and filename of Verifone Payment public key file"
+msgstr "Polku, josta Verifone Payment julkinen avaintiedosto löytyy"
+
+#: includes/helpers/wc-verifone-summary.php:64
+#: includes/helpers/wc-verifone-summary.php:106
+#: includes/helpers/wc-verifone-summary.php:136
+msgid "Key file is available"
+msgstr "Avaintiedosto on saatavilla"
+
+#: includes/helpers/wc-verifone-summary.php:69
+msgid "Problem with load key file. Please contact with customer service"
+msgstr ""
+"Avaintiedoston lataamisessa tapahtui ongelma. Ole hyvä ja ota yhteys "
+"asiakaspalveluun.\""
+
+#: includes/helpers/wc-verifone-summary.php:80
+#: includes/wc-verifone-settings.php:83
+msgid "Directory for store keys"
+msgstr "Kansio kaupan avaimille"
+
+#: includes/helpers/wc-verifone-summary.php:86
+msgid "Directory configured properly"
+msgstr "Kansio asetettu oikein"
+
+#: includes/helpers/wc-verifone-summary.php:91
+msgid ""
+"Problem with directory configuration. Please check configuration and save."
+msgstr ""
+"Virhe kansion asetuksissa. Ole hyvä ja tarkista asetukset sekä tallenna "
+"uudestaan."
+
+#: includes/helpers/wc-verifone-summary.php:99
+#: includes/helpers/wc-verifone-summary.php:118
+#: includes/helpers/wc-verifone-summary.php:129
+msgid "Path and filename of shop private key file"
+msgstr "Polku, josta kaupan yksityinen avaintiedosto löytyy"
+
+#: includes/helpers/wc-verifone-summary.php:111
+msgid "Key file is not available"
+msgstr "Avaintiedostoa ei ole saatavilla"
+
+#: includes/helpers/wc-verifone-summary.php:122
+#: includes/helpers/wc-verifone-summary.php:141
+msgid "Default key file is used"
+msgstr "Oletusavaintiedosto on käytössä"
+
+#: includes/helpers/wc-verifone-summary.php:146
+msgid ""
+"Problem with fetch shop private key file. Please check configuration and/or "
+"generate key"
+msgstr ""
+"Kaupan yksityisen avaimen lataamisessa tapahtui ongelma. Ole hyvä ja "
+"tarkasta asetukset ja/tai generoi uusi avain."
+
+#: includes/helpers/wc-verifone-summary.php:155
+#: includes/helpers/wc-verifone-summary.php:164
+msgid "Public key file"
+msgstr "Julkinen avain"
+
+#: includes/helpers/wc-verifone-summary.php:159
+msgid ""
+"Problem with fetch shop public key file. Please check configuration and/or "
+"generate key"
+msgstr ""
+"Kaupan julkisen avaimen lataamisessa tapahtui ongelma. Ole hyvä ja tarkasta "
+"asetukset ja/tai generoi uusi avain."
+
+#: includes/helpers/wc-verifone-summary.php:168
+msgid ""
+"Please, copy this key to payment operator configuration settings, otherwise, "
+"the payment will be broken."
+msgstr ""
+"Muista kopioida asetus maksuoperaattorin palveluun. Muuten maksujen välitys "
+"lakkaa toimimasta."
+
+#: includes/helpers/wc-verifone-system.php:112
+msgid "Finnish"
+msgstr "Suomi"
+
+#: includes/helpers/wc-verifone-system.php:113
+msgid "Swedish"
+msgstr "Ruotsi"
+
+#: includes/helpers/wc-verifone-system.php:114
+msgid "Norwegian"
+msgstr "Norja"
+
+#: includes/helpers/wc-verifone-system.php:115
+msgid "Danish"
+msgstr "Tanska"
+
+#: includes/helpers/wc-verifone-system.php:116
+msgid "Swedish (Finland)"
+msgstr "Ruotsi(Suomi)"
+
+#: includes/helpers/wc-verifone-system.php:117
+msgid "English"
+msgstr "Englanti"
+
+#: includes/helpers/wc-verifone-system.php:273
+msgid "Do not send basket items"
+msgstr "Älä lähetä ostoskorin rivejä"
+
+#: includes/helpers/wc-verifone-system.php:274
+msgid "Send for all payment methods"
+msgstr "Lähetä kaikkien maksutapojen osalta"
+
+#: includes/helpers/wc-verifone-system.php:275
+msgid "Send only for invoice payment methods"
+msgstr "Lähetä vain lasku-tyyppisten maksutapojen osalta"
+
+#: includes/wc-verifone-settings.php:25
+msgid "Display configuration summary"
+msgstr "Näytä asetusten yhteenveto"
+
+#: includes/wc-verifone-settings.php:30
+msgid "Enable/Disable"
+msgstr "Ota käyttöön/Poista käytöstä"
+
+#: includes/wc-verifone-settings.php:32
+msgid "Enable Verifone Payment"
+msgstr "Ota Verifone-verkkomaksut käyttöön"
+
+#: includes/wc-verifone-settings.php:36
+msgid "Title"
+msgstr "Otsikko"
+
+#: includes/wc-verifone-settings.php:41
+msgid "Environment (Test/Production)"
+msgstr "Ympäristö (Testi/Tuotanto)"
+
+#: includes/wc-verifone-settings.php:43
+msgid "Select environment for the payment module"
+msgstr "Valitse käytettävä ympäristö maksumodulille"
+
+#: includes/wc-verifone-settings.php:52 includes/wc-verifone-settings.php:54
+msgid "Verifone Payment production merchant agreement code"
+msgstr "Verifone kauppiaskoodi tuotantokäyttöön"
+
+#: includes/wc-verifone-settings.php:59 includes/wc-verifone-settings.php:61
+msgid "Verifone Payment test merchant agreement code"
+msgstr "Verifone kauppiaskoodi testikäyttöön"
+
+#: includes/wc-verifone-settings.php:66
+msgid "Payment service key handling"
+msgstr "Maksupalvelun avaimien hallinta"
+
+#: includes/wc-verifone-settings.php:85
+msgid "Required. A path to the directory for generated files"
+msgstr "Vaadittu tieto. Polku generoitaville avaintiedostoille"
+
+#: includes/wc-verifone-settings.php:91 includes/wc-verifone-settings.php:99
+msgid "Shop private key filename"
+msgstr "Kaupan privaatin avaimen tiedostonimi"
+
+#: includes/wc-verifone-settings.php:93 includes/wc-verifone-settings.php:101
+msgid ""
+"Filename of shop secret key file generated with Verifone Payment key pair "
+"generator"
+msgstr "Nimi Verifone Payment -avaingeneraattorilla luodulle avaintiedostolle"
+
+#: includes/wc-verifone-settings.php:107
+msgid "Pay page URL 1"
+msgstr "Maksusivun URL 1"
+
+#: includes/wc-verifone-settings.php:109
+msgid "Required. URL to the payment system"
+msgstr "Vaadittu tieto. Maksujärjestelmän URL."
+
+#: includes/wc-verifone-settings.php:114
+msgid "Pay page URL 2"
+msgstr "Maksusivun URL 2"
+
+#: includes/wc-verifone-settings.php:116
+msgid "Optional. Second redundant URL to the payment system"
+msgstr "Valinnainen tieto. Maksujärjestelmän varaosoite(URL)."
+
+#: includes/wc-verifone-settings.php:121
+msgid "Pay page URL 3"
+msgstr "Maksusivun URL 3"
+
+#: includes/wc-verifone-settings.php:123
+msgid "Optional. Third redundant URL to the payment system"
+msgstr "Valinnainen tieto. Maksujärjestelmän varaosoite(URL)."
+
+#: includes/wc-verifone-settings.php:128
+msgid "Payment page language"
+msgstr "Maksusivun kieli"
+
+#: includes/wc-verifone-settings.php:130
+msgid "Select language which will be use on payment page"
+msgstr "Valitse kieli, jota käytetään maksusivulla."
+
+#: includes/wc-verifone-settings.php:136
+msgid "Check payment node availability"
+msgstr "Tarkista maksunoodien saatavuus"
+
+#: includes/wc-verifone-settings.php:138
+msgid "Make a check that payment node is available"
+msgstr ""
+"Testi, joka suoritetaan nodeille ennen varsinaisen maksun lähettämistä."
+
+#: includes/wc-verifone-settings.php:144
+msgid "Skip confirmation page"
+msgstr "Ohita vahvistussivu"
+
+#: includes/wc-verifone-settings.php:146
+msgid "Return directly to shop after payment"
+msgstr "Palaa suoraan kauppaan onnistuneen maksun jälkeen."
+
+#: includes/wc-verifone-settings.php:152
+msgid "Style code"
+msgstr "Tyylikoodi"
+
+#: includes/wc-verifone-settings.php:154
+msgid ""
+"Use of custom payment page template needs first to be uploaded and to be "
+"approved by Verifone Payment"
+msgstr ""
+"Käyttääksesi muokattua ulkoasua, ole yhteydessä Verifoneen sen aktivoimiseksi"
+
+#: includes/wc-verifone-settings.php:159
+msgid "Basket Item Sending"
+msgstr "Ostoskoririvien lähetys"
+
+#: includes/wc-verifone-settings.php:161
+msgid "Select for which type of order should send items."
+msgstr ""
+"Valitse minkätyyppiset ostoskoririvit lähetetään maksujärjestelmälle "
+"tiedoksi."
+
+#: includes/wc-verifone-settings.php:167
+msgid "Combine Invoice Basket Items"
+msgstr "Yhdistä laskun ostoskoririvit"
+
+#: includes/wc-verifone-settings.php:169
+msgid "Currently only available for invoice payment methods"
+msgstr "Tällä hetkellä saatavilla ainoastaan lasku-tyyppisille maksutavoille."
+
+#: includes/wc-verifone-settings.php:175
+msgid "Use external customer id."
+msgstr "Käytä ulkoista asiakas-id:tä."
+
+#: includes/wc-verifone-settings.php:177
+msgid ""
+"If you want to use other field to match user in Verifone Payment service, "
+"please set this value (for example <strong>billing_phone</strong>). If you "
+"do not know what should be, please leave empty and contact with our service."
+msgstr ""
+"Jos haluat käyttää tiettyä kenttää Verifonessa asiakkaan tunnistamiseen, "
+"aseta tämä arvo(esim. <strong>billing_phone</strong>). Jos et ole varma "
+"asetuksesta, ole hyvä ja jätä kenttä tyhjäksi ja ota yhteyttä Verifonen "
+"tukeen."
+
+#: includes/wc-verifone-settings.php:182
+msgid "Refresh Payment Methods"
+msgstr "Päivitä maksutavat"
+
+#: includes/wc-verifone-settings.php:188
+msgid "Available payment methods"
+msgstr "Saatavilla olevat maksutavat"
+
+#: includes/wc-verifone-settings.php:195
+msgid "Allow to save Credit Cards"
+msgstr "Salli luottokorttien tallennus"
+
+#: includes/wc-verifone-settings.php:203
+msgid "Save masked PAN number"
+msgstr "Tallenna typistetty PAN-numero"
+
+#: includes/wc-verifone-settings.php:211
+msgid "Remember me info"
+msgstr "Muista maksutapa -infoteksti"
+
+#: includes/wc-verifone-settings.php:213
+msgid ""
+"Optional. Note in checkout after Remember payment method checkbox - for "
+"cards only"
+msgstr ""
+"Valinnainen tieto. Infoteksti, joka esitetään kassalla luottokorttien "
+"tallennuksen yhteydessä."
+
+#: includes/wc-verifone-settings.php:217
+msgid "Payment message"
+msgstr "Maksun viesti"
+
+#: includes/wc-verifone-settings.php:219
+msgid "Optional. Note in the checkout below the payment method select."
+msgstr ""
+"Valinnainen tieto. Viesti kassasivulla maksutavan valinnan alapuolella."
+
+#: includes/wc-verifone-settings.php:223
+msgid "Minimum Order Total"
+msgstr "Tilauksen minimisumma"
+
+#: includes/wc-verifone-settings.php:225 includes/wc-verifone-settings.php:231
+msgid "Leave empty to disable limit."
+msgstr "Jätä tyhjäksi jos et halua aktivoida asetusta."
+
+#: includes/wc-verifone-settings.php:229
+msgid "Maximum Order Total"
+msgstr "Tilauksen maksimisumma."
+
+#: includes/wc-verifone-settings.php:235
+msgid "Disable rsa blinding"
+msgstr "Poista RSA-blinding käytöstä."
+
+#: includes/wc-verifone-settings.php:237
+msgid ""
+"Define CRYPT_RSA_DISABLE_BLINDING as true in case of custom PHP build or "
+"PHP7 (experimental)"
+msgstr ""
+"Määrittele CRYPT_RSA_DISABLE_BLINDING arvoon true, jos käytät custom PHP-"
+"buildia tai PHP7-versiota."
+
+#: includes/wc-verifone-settings.php:294
+msgid "No"
+msgstr "Ei"
+
+#: includes/wc-verifone-settings.php:295
+msgid "Yes"
+msgstr "Kyllä"
+
+#: includes/wc-verifone-settings.php:321
+msgid "Generate live keys"
+msgstr "Generoi avaimet tuotantoympäristöön"
+
+#: includes/wc-verifone-settings.php:322
+msgid "Generate test keys"
+msgstr "Generoi avaimet testiympäristöön"
+
+#: includes/wc-verifone-settings.php:324
+msgid ""
+"When you generate live keys, you will need to upload the new public key to "
+"Verifone Payment portal"
+msgstr "Kun generoit avaimet tuotantoympäristöön"
+
+#: includes/wc-verifone-settings.php:325
+msgid ""
+"Uses preset keys by default, only needed if using custom test agreements"
+msgstr ""
+"Oletusavaimia käytetään oletuksena. Tätä tarvitaan vain erityisten "
+"testisopimusten kanssa."
+
+#: includes/wc-verifone-settings.php:329
+msgid ""
+"Are you sure you want to generate keys? The keys are stored in database. \n"
+"\n"
+"After creating a new key, remember to copy this key to payment operator "
+"configuration settings, otherwise the payment will be broken"
+msgstr ""
+"Haluatko varmasti generoida avaimet? Avaimet tallennetaan tietokantaan.\n"
+"\n"
+"Uuden avaimen generoinnin jälkeen, muista kopioida se palveluntarjoajan "
+"asetuksiin. Muussa tapauksessa maksut eivät toimi."
+
+#: woocommerce-gateway-verifone.php:138
+#, php-format
+msgid ""
+"WooCommerce Verifone - The minimum PHP version required for this plugin is "
+"%1$s. You are running %2$s."
+msgstr ""
+"WooCommerce Verifone - Vaadittu PHP-versio laajennukselle on %1$s. Käytössä "
+"on tällä hetkellä %2$s."
+
+#: woocommerce-gateway-verifone.php:144
+msgid "WooCommerce Verifone requires WooCommerce to be activated to work."
+msgstr ""
+"Woocommercen täytyy olla aktivoituna, jotta modulia voitaisiin käyttää."
+
+#: woocommerce-gateway-verifone.php:148
+#, php-format
+msgid ""
+"WooCommerce Verifone - The minimum WooCommerce version required for this "
+"plugin is %1$s. You are running %2$s."
+msgstr ""
+"WooCommerce Verifone - Vaadittu Woocommerce-versio laajennukselle on %1$s. "
+"Käytössä on tällä hetkellä %2$s."
+
+#: woocommerce-gateway-verifone.php:154
+msgid "WooCommerce Verifone - cURL is not installed."
+msgstr "WooCommerce Verifone - cURL-laajennusta ei ole asennettu."
+
+#: woocommerce-gateway-verifone.php:170
+msgid "Settings"
+msgstr "Asetukset"
+
+#: woocommerce-gateway-verifone.php:171
+msgid "Support"
+msgstr "Tuki"
+
+#: woocommerce-gateway-verifone.php:213
+msgid "WooCommerce Verifone Payment"
+msgstr "Verifone Woocommerce -moduli"
+
+#: woocommerce-gateway-verifone.php:221
+#, php-format
+msgid ""
+"Is set in development mode. You can change mode on configuration page: %1$s."
+msgstr "Development-tila on aktivoitu. Voit vaihtaa tätä asetussivulla: %1$s."
+
+#: woocommerce-gateway-verifone.php:306 woocommerce-gateway-verifone.php:310
+msgid "Payment methods have been refreshed."
+msgstr "Maksutavat päivitetty."
+
+#: woocommerce-gateway-verifone.php:313 woocommerce-gateway-verifone.php:317
+msgid "Problem with retrieve payment methods. "
+msgstr "Maksutapojen haussa tapahtui virhe."
+
+#: woocommerce-gateway-verifone.php:446
+msgid "Once every 15 minutes"
+msgstr "Kerran 15 minuutissa"
+
+#~ msgid "Docs"
+#~ msgstr "Ohjeet"
+
+#~ msgid "Module on live mode"
+#~ msgstr "Live-moodi"
+
+#~ msgid "Select if extension is on live mode (Production) or test mode (Test)"
+#~ msgstr "Valitse, onko maksuväylä live-moodissa vai testimoodissa"
+
+#~ msgid "Required. Verifone Payment agreement code"
+#~ msgstr "Vaadittu tieto"
+
+#~ msgid "Verifone Payment agreement code"
+#~ msgstr "Verifonen kauppiastunnus"
+
+#~ msgid "New payment order status"
+#~ msgstr "Uuden tilauksen maksun status."
+
+#~ msgid "This setting cannot be changed due to WooCommerce built-in logic"
+#~ msgstr "Tätä asetusta ei voi muuttaa WooCommercen logiikasta johtuen."
+
+#~ msgid "Completed payment order status"
+#~ msgstr "Valmiin tilauksen maksun tila"
+
+#~ msgid "Verifone Payment merchant agreement"
+#~ msgstr "Verifonen kauppiastunnus"
+
+#~ msgid "Keys are generated correctly. Please refresh or save the page."
+#~ msgstr "Avaimet generoitu onnistuneesti. Ole hyvä ja tallenna asetukset."
+
+#~ msgid "Please configure directory for store generated key."
+#~ msgstr "Ole hyvä ja aseta kansio generoitavalle avaintiedostolle."
+
+#~ msgid "Please provide merchant agreement code"
+#~ msgstr "Ole hyvä ja anna kauppiastunnus/sopimusnumero"
+
+#~ msgid "Please provide merchant agreement code for the test"
+#~ msgstr "Ole hyvä ja anna testikauppiaan tunnus/sopimusnumero."
+
+#~ msgid "You can not generate keys for default test merchant agreement"
+#~ msgstr "Et voi generoida avaimia oletuksena käytettävälle testikauppiaalle."
+
+#~ msgid "Keys are generated correctly. Please refresh the page."
+#~ msgstr ""
+#~ "Avaimet generoitu onnistuneesti. Ole hyvä ja päivitä seuraavaksi sivu."
+
+#~ msgid "Problem with save keys into directory. Please check configuration."
+#~ msgstr ""
+#~ "Virhe kansion asetuksissa. Ole hyvä ja tarkista asetukset sekä tallenna "
+#~ "uudestaan."
+
+#~ msgid "Default test key file uses"
+#~ msgstr "Oletusavain testitunnuksille"
+
+#~ msgid "Key file for provided merchant agreement code does not exist"
+#~ msgstr "Syötetyn kauppiaan avaintiedostoa ei löydy"
+
+#~ msgid "Path and filename of shop public key file"
+#~ msgstr "Polku, josta kaupan julkinen avaintiedosto löytyy"
+
+#~ msgid "Verifone Payment public key filename"
+#~ msgstr "Verifonen julkisen avaimen tiedostonimi"
+
+#~ msgid "Filename of Verifone Payment public key file"
+#~ msgstr "Nimi Verifone Payment julkiselle avaintiedostolle"
+
+#~ msgid "Generate new keys"
+#~ msgstr "Luo uudet avaimet"
+
+#~ msgid ""
+#~ "Are you sure you want to generate keys? The private key will be saved in "
+#~ "location from configuration field: %s. \n"
+#~ "\n"
+#~ "After creating a new key, remember to copy this key to payment operator "
+#~ "configuration settings, otherwise the payment will be broken"
+#~ msgstr ""
+#~ "Haluatko varmasti luoda uudet avaimet? Uusi privaatti avain tallennetaan "
+#~ "sijaintiin, joka on määritelty kentässä %s. \n"
+#~ "\n"
+#~ " Luonnin jälkeen muista kopioida asetus maksuoperaattorin palveluun. "
+#~ "Muuten maksujen välitys lakkaa toimimasta."
+
+#~ msgid ""
+#~ "You will be redirect to Verifone Service to process adding payment card."
+#~ msgstr "Sinut ohjataa Verifonen portaaliin lisäämään maksukortti."
+
+#~ msgid "Please save the configuration first, and then try again."
+#~ msgstr ""
+#~ "Ole hyvä ja tallenna asetukset ensin ja yritä tämän jälkeen uudestaan."
+
+#~ msgid "Problem with generate new keys"
+#~ msgstr "Avainten luonnissa tapahtui virhe."
+
+#~ msgid ""
+#~ "Problem with generates new keys. The path for creating the new private "
+#~ "key is the same as for test. Please first change configuration for field "
+#~ "<strong>%s</strong>, save, and then try again."
+#~ msgstr ""
+#~ "Avaimien luonnissa tapahtui virhe. Polku yksityiselle avaimelle on sama "
+#~ "kuin testiavaimelle. Ole hyvä ja vaihda ensin asetukset kentälle <strong>"
+#~ "%s</strong>, tallenna, ja yritä uudestaan."
+
+#~ msgid "Keys are generated correctly. Please refresh page."
+#~ msgstr "Avaimet luotu onnistuneesti. Ole hyvä ja päivitä sivu."
+
+#~ msgid ""
+#~ "Required. Path and filename of shop secret key file generated with "
+#~ "Verifone Payment key pair generator"
+#~ msgstr ""
+#~ "Vaadittu tieto. Polku ja tiedostonimi, josta löytyy generaattorilla luotu "
+#~ "avainparin tiedosto."
+
+#~ msgid "Required. Path and filename of Verifone Payment public key file"
+#~ msgstr "Vaadittu tieto. Polku ja tiedostonimi, jossa tiedosto sijaitsee."
+
+#~ msgid "Public key"
+#~ msgstr "Julkinen avain"
+
+#~ msgid "Live"
+#~ msgstr "Live"
+
+#~ msgid "Verifone"
+#~ msgstr "Verifone"
+
+#~ msgid "Redirecting to VerifonePayment"
+#~ msgstr "Ohjataan Verifonen verkkomaksuihin"
+
+#~ msgid ""
+#~ "Required. Path and filename of shop secret key file generated with "
+#~ "Verifone key pair generator"
+#~ msgstr ""
+#~ "Vaadittu tieto. Polku ja tiedostonimi, josta löytyy generaattorilla luotu "
+#~ "avainparin tiedosto."
+
+#~ msgid "Verifone public key filename"
+#~ msgstr "Verifonen julkisen avaimen tiedostonimi"
+
+#~ msgid "Required. Path and filename of Verifone public key file"
+#~ msgstr "Vaadittu tieto. Polku ja tiedostonimi, jossa tiedosto sijaitsee."
+
+#~ msgid ""
+#~ "Use of custom payment page template needs first to be uploaded and to be "
+#~ "approved by Verifone"
+#~ msgstr ""
+#~ "Käyttääksesi muokattua ulkoasua, ole yhteydessä Verifoneen sen "
+#~ "aktivoimiseksi"
+
+#~ msgid ""
+#~ "If you want to use other field to match user in Verifone service, please "
+#~ "set this value (for example <strong>billing_phone</strong>). If you do "
+#~ "not know what should be, please leave empty and contact with our service."
+#~ msgstr ""
+#~ "Jos haluat käyttää tiettyä kenttää Verifonessa asiakkaan tunnistamiseen, "
+#~ "aseta tämä arvo(esim. <strong>billing_phone</strong>). Jos et ole varma "
+#~ "asetuksesta, ole hyvä ja jätä kenttä tyhjäksi ja ota yhteyttä Verifonen "
+#~ "tukeen."
+
+#~ msgid "There was a problem while processing refund create request."
+#~ msgstr "Maksun palautuksen käsittelyssä tapahtui virhe."
+
+#~ msgid "Please configure payment method: %1$s."
+#~ msgstr "Ole hyvä ja konfiguroi maksutapa: %1$s."

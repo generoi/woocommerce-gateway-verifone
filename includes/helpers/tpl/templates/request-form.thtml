@@ -1,0 +1,11 @@
+<html>
+<body>
+<form method="POST" id="pay" action="{{ action }}">{{ redirectMessage }}...
+    { foreach formData as value }
+    <input type="hidden" name="{{ current_key }}" value="{{ value }}"/>
+    { endforeach }
+    <script type="text/javascript">document.getElementById("pay").submit();</script>
+    <input type="submit"/>
+</form>
+</body>
+</html>

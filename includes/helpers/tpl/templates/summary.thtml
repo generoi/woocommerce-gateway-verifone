@@ -1,0 +1,40 @@
+<div id="verifone-summary-modal" class="verifone_summary_modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close">&times;</span>
+            <h2>{{ header }}</h2>
+        </div>
+        <div class="modal-body">
+
+            <table class="verifone_summary" cellspacing="0">
+                <tbody>
+                { foreach configurationData as configuration }
+                <tr>
+                    <td class="label">{{ configuration.label }}</td>
+                    <td class="value">
+                        <pre id="verifone-summary-{{ current_key }}" class="strong">{{ configuration.value }}</pre>
+                        { if ({{ configuration.has_desc }}) }
+                        <p class="note">
+                            { if ({{ configuration.has_desc_class }}) }
+                                <span class="{{ configuration.desc_class }}">
+                            { else }
+                                <span>
+                            { endif }
+                                {{ configuration.desc }}
+                                </span>
+                        </p>
+                        { endif }
+                    </td>
+                </tr>
+                { endforeach }
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <h3>&nbsp</h3>
+        </div>
+    </div>
+
+</div>
