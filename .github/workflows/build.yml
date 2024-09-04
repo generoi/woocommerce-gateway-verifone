@@ -1,0 +1,46 @@
+name: Build
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '5 4 * * *'
+jobs:
+  build:
+    name: Update plugin
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      updated: ${{ steps.update.outputs.updated }}
+      version: ${{ steps.update.outputs.version }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Retrieve the latest version number
+        run: |
+          curl https://www.bluecommerce.fi/wp-content/uploads/verifone_modules/woocommerce/verifone-plugin_woocommerce.zip?ver_time=$(date +%s) > wrapper.zip
+          unzip -p wrapper.zip verifone-plugin_woocommerce/woocommerce-gateway-verifone.zip > package.zip
+          {
+            echo 'LATEST_VERSION<<EOF'
+            unzip -p package.zip woocommerce-gateway-verifone/woocommerce-gateway-verifone.php | grep 'Version:' | sed 's/.*: //'
+            echo 'EOF'
+          } >> "$GITHUB_ENV"
+          rm wrapper.zip
+          mv package.zip /tmp/package.zip
+
+
+      - name: Update repo
+        uses: generoi/github-action-update-plugins@master
+        id: update
+        with:
+          download_path: /tmp/package.zip
+          version: ${{ env.LATEST_VERSION }}
+          changelog_extract: |
+            awk -v ver=${{ env.LATEST_VERSION }} '/^## / { if (p) { exit }; if ($2 == "["ver"]") { p=1; next } } p && NF' CHANGELOG.md
+
+  update-satis:
+    needs: build
+    if: needs.build.outputs.updated == 'true'
+    uses: generoi/packagist/.github/workflows/update.yml@master
+    secrets:
+      token: ${{ secrets.PACKAGIST_UPDATE_PAT }}
