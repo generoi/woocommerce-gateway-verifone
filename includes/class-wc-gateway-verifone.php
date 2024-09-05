@@ -28,6 +28,8 @@ class WC_Gateway_Verifone extends WC_Payment_Gateway
 
     protected $_instance = null;
 
+    public $version;
+
     public function __construct()
     {
 
