@@ -18,16 +18,16 @@ jobs:
 
       - name: Retrieve the latest version number
         run: |
-          curl https://www.bluecommerce.fi/wp-content/uploads/verifone_modules/woocommerce/verifone-plugin_woocommerce.zip?ver_time=$(date +%s) > wrapper.zip
-          unzip -p wrapper.zip verifone-plugin_woocommerce/woocommerce-gateway-verifone.zip > package.zip
+          curl "https://www.bluecommerce.fi/wp-content/uploads/verifone_modules/woocommerce/verifone-plugin_woocommerce.zip?ver_time=$(date +%s)" > /tmp/verifone-wrapper.zip
+          unzip /tmp/verifone-wrapper.zip -d /tmp/verifone-wrapper
+          mv /tmp/verifone-wrapper/woocommerce-gateway-verifone-*.zip /tmp/package.zip
           {
             echo 'LATEST_VERSION<<EOF'
-            unzip -p package.zip woocommerce-gateway-verifone/woocommerce-gateway-verifone.php | grep 'Version:' | sed 's/.*: //'
+            unzip -p /tmp/package.zip woocommerce-gateway-verifone/woocommerce-gateway-verifone.php | grep 'Version:' | sed 's/.*: //'
             echo 'EOF'
           } >> "$GITHUB_ENV"
-          rm wrapper.zip
-          mv package.zip /tmp/package.zip
-
+          rm /tmp/verifone-wrapper.zip
+          rm -r /tmp/verifone-wrapper/
 
       - name: Update repo
         uses: generoi/github-action-update-plugins@master
