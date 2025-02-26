@@ -6,13 +6,14 @@ final class Wc_Verifone_Blocks extends AbstractPaymentMethodType {
     protected $name = 'verifone';
 
     public function initialize() {
-        $verifoneSettings = new WC_Verifone_Settings();
-        $this->settings = $verifoneSettings->getSettings();
-        $this->gateway = new WC_Gateway_Verifone();
+        // $verifoneSettings = new WC_Verifone_Settings();
+        // $this->settings = $verifoneSettings->getSettings();
+        // $this->gateway = new WC_Gateway_Verifone();
     }
 
     public function is_active() {
-        return $this->gateway->is_available();
+		$gateway = new WC_Gateway_Verifone();
+        return $gateway->is_available();
     }
 
     public function get_payment_method_script_handles() {
@@ -40,9 +41,28 @@ final class Wc_Verifone_Blocks extends AbstractPaymentMethodType {
     }
 
     public function get_payment_method_data() {
+		$gateway = new WC_Gateway_Verifone();
+
+		// Bypass is_checkout check in payment_fields function
+		$gateway->is_checkout_block = true;
+
+		/**
+		 * Output the payment fields for the gateway.
+		 * We need buffering because the payment_fields function echoes the fields in order for the
+		 * legacy payment gateway selection to work correctly, and we want to use the same function
+		 * for the block for the sake of consistency.
+		 */
+		ob_start();
+		$gateway->payment_fields();
+		$html = ob_get_clean();
+
+		// Reset the bypass
+		$gateway->is_checkout_block = false;
+
         $data = [
-            'title' => $this->gateway->title,
-            'description' => $this->gateway->description,
+            'title'	=> $gateway->title,
+			'logo'	=> $gateway->get_icon(),
+			'html'	=> $html,
         ];
 
         return $data;

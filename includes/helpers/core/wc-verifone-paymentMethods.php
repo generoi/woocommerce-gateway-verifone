@@ -25,11 +25,6 @@ class WC_Verifone_Core_PaymentMethods extends WC_Verifone_Core
 
     const PAYMENT_METHODS_OPTION_KEY = WC_Verifone_PaymentMethods::PAYMENT_METHODS_OPTION_KEY;
 
-	const PAYMENT_METHOD_ORDER = ['all', 'aktia-maksu', 'bank-axess', 'sampo-web-payment', 'danske-netbetaling', 'nordea-e-payment', 'nordea-se-db',
-      'nordea-dk-db', 'handelsbanken-e-payment', 'handelsbanken-se-db', 'oma-saastopankin-verkkomaksu', 'op-pohjola-verkkomaksu', 'pop-pankin-verkkomaksu',
-      'swedbank-se-db', 's-pankki-verkkomaksu', 'seb-se-db', 'saastopankin-verkkomaksu', 'alandsbanken-e-payment', 'swish', 'siirto', 'mobilepay', 'vipps',
-      'masterpass', 'dankort', 'visa', 'master-card', 'amex', 'diners', 'paypal', 'afterpay-invoice', 'invoice-collector', 'euroloan-invoice',
-      'enterpay-invoice', 'handelsbanken-se-account', 'handelsbanken-se-invoice', 'svea-webpay-installment', 'svea-webpay-invoice'];
     /**
      * Refresh payment methods from Verifone
      *
@@ -77,7 +72,7 @@ class WC_Verifone_Core_PaymentMethods extends WC_Verifone_Core
      */
     protected static function _savePaymentMethods($methods)
     {
-        $encoded = json_encode(array_intersect(self::PAYMENT_METHOD_ORDER, $methods));
+        $encoded = json_encode($methods);
         update_option(self::PAYMENT_METHODS_OPTION_KEY, $encoded);
     }
 }

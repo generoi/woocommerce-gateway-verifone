@@ -1,52 +1,119 @@
 jQuery(function ($) {
-    'use strict';
+	'use strict';
 
-    var wc_verifone = {
+	var methodLogosVisible = false;
+	if (woocommerceVerifone.usePaymentMethodLogos) {
+		methodLogosVisible = true;
+	}
 
-        /**
-         * Initialize.
-         */
-        init: function () {
+	var selectors = {
+		paymentMethodsList: 'select#verifone-payment-method',
+		paymentMethodWrapper: 'option',
+		paymentMethodActive: 'option:selected',
+		paymentMethodApplePay: 'option[value="applepay"]'
+	};
 
-            $(document).on('updated_checkout', function (e) {
-                wc_verifone.hideAllInOne();
-                wc_verifone.changeCardBox($('select#verifone-payment-method'));
-            });
+	if (methodLogosVisible) {
+		selectors.paymentMethodsList = '.verifone-payment-method-logos';
+		selectors.paymentMethodWrapper = '.verifone-payment-method-logo input';
+		selectors.paymentMethodActive = '.verifone-payment-method-logo.active input';
+		selectors.paymentMethodApplePay = '.verifone-payment-method-applepay';
+	}
 
-            $(document).on('change', 'select#verifone-payment-method', function(e){
-                wc_verifone.changeCardBox(this);
-            });
-        },
-        hideAllInOne: function () {
-            var $select = $('select#verifone-payment-method');
+	var wc_verifone = {
+		init: function () {
+			// Legacy checkout
+			$(document).on('updated_checkout', function (e) {
+				wc_verifone.onPaymentMethodChange();
+			});
 
-            if($select.length === 0) {
-                return true;
-            }
+			// Checkout block
+			if ('undefined' !== typeof window.wp && 'undefined' !== typeof window.wp.hooks) {
+				window.wp.hooks.addAction('wc.verifoneBlockInit', 'wc-verifone/handle-set-active-payment-method', function () {
+					wc_verifone.onPaymentMethodChange();
+				});
+			}
 
-            var $methods = $select.find('option');
+			// Method change
+			$(document).on('change', selectors.paymentMethodsList, function (e) {
+				wc_verifone.changeCardBox(this);
+			});
 
-            if($methods.length > 1) {
-                return true;
-            }
+			// Method logo change
+			$(document).on('click', '.verifone-payment-method-logo', function (e) {
+				$('.verifone-payment-method-logo').removeClass('active');
+				$(this).addClass('active');
+			}
+			);
+		},
+		onPaymentMethodChange: function () {
+			wc_verifone.hideLoneAllInOne();
+			wc_verifone.hideAllInOneLogo();
+			wc_verifone.hideApplePay();
+			wc_verifone.changeCardBox($(selectors.paymentMethodsList));
+		},
+		hideLoneAllInOne: function () {
+			var $methods = $(selectors.paymentMethodsList);
 
-            var $method = $methods[0];
+			if ($methods.length === 0) {
+				return true;
+			}
 
-            if($method.value === 'all') {
-                $select.closest('.verifone-payment').hide();
-            }
-        },
-        changeCardBox: function (elem) {
-            var $option = $(elem).find('option:selected');
+			var $methods = $methods.find(selectors.paymentMethodWrapper);
 
-            if($option.attr('data-type') !== 'card') {
-                $(elem).closest('.verifone-payment').find('.verifone-save-payment-method-wrapper').hide();
-            } else {
-                $(elem).closest('.verifone-payment').find('.verifone-save-payment-method-wrapper').show();
-            }
-        }
-    };
+			if ($methods.length > 1) {
+				return true;
+			}
 
-    wc_verifone.init();
+			var $method = $methods[0];
+
+			if ($method.value === 'all') {
+				$methods.closest('.verifone-payment').hide();
+			}
+		},
+		hideAllInOneLogo: function () {
+			if (!methodLogosVisible) {
+				return;
+			}
+
+			var $methods = $(selectors.paymentMethodWrapper);
+
+			if ($methods.length === 0) {
+				return true;
+			}
+
+			var $method = $methods[0];
+
+			if ($method.value === 'all') {
+				$('.verifone-payment-method-logo.' + $method.id).hide();
+			}
+		},
+		hideApplePay: function () {
+			var $method = $(selectors.paymentMethodApplePay);
+
+			if ($method.length === 0) {
+				return true;
+			}
+
+			if (!wc_verifone.applePaySupported()) {
+				$method.hide();
+			}
+		},
+		changeCardBox: function (elem) {
+			var $option = $(elem).find(selectors.paymentMethodActive);
+
+			if ($option.attr('data-type') !== 'card') {
+				$(elem).closest('.verifone-payment').find('.verifone-save-payment-method-wrapper input').prop('checked', false);
+				$(elem).closest('.verifone-payment').find('.verifone-save-payment-method-wrapper').hide();
+			} else {
+				$(elem).closest('.verifone-payment').find('.verifone-save-payment-method-wrapper').show();
+			}
+		},
+		applePaySupported: function () {
+			return window.ApplePaySession && ApplePaySession.canMakePayments() && ApplePaySession.supportsVersion(4);
+		}
+	};
+
+	wc_verifone.init();
 
 });

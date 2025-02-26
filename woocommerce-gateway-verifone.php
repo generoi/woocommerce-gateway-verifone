@@ -3,7 +3,7 @@
  * Plugin Name: WooCommerce Verifone Payment Gateway
  * Plugin URI: https://www.verifone.com/fi
  * Description: Verifone Payment gateway for WooCommerce.
- * Version: 1.4.0
+ * Version: 1.5.0
  * Author: Verifone Payment
  * Author URI: https://www.verifone.com/fi
  * Requires at least: 4.4
@@ -30,7 +30,7 @@ if (!defined('ABSPATH')) {
 /**
  * Required minimums and constants
  */
-define('WC_VERIFONE_VERSION', '1.4.0');
+define('WC_VERIFONE_VERSION', '1.5.0');
 define('WC_VERIFONE_MIN_PHP_VER', '5.6.0');
 define('WC_VERIFONE_MIN_WC_VER', '3.0.0');
 define('WC_VERIFONE_MAIN_FILE', __FILE__);
@@ -72,11 +72,79 @@ if (!class_exists('WC_Verifone')) :
         protected function __construct()
         {
             load_plugin_textdomain(WC_VERIFONE_DOMAIN, false, plugin_basename(dirname(__FILE__)) . '/languages');
-            add_action('plugins_loaded', array($this, 'initMainHelpers'));
+            add_action('init', array($this, 'initMainHelpers'));
             add_action('admin_init', array($this, 'checkEnvironment'));
-            add_action('plugins_loaded', array($this, 'init'));
-            add_action('admin_notices', array($this, 'adminNotices'), 15);
-            add_action('plugins_loaded', array($this, 'upgrade'), 15);
+            add_action('init', array($this, 'init'));
+            add_action('init', array($this, 'upgrade'), 15);
+
+			/**
+			 * Render plugin notices.
+			 * Clear all notices on login and logout in case there were any left behind by a previous session.
+			 * That should not happen, as we are clearing all notices after displaying them. But just in case.
+			 */
+			add_action('admin_notices', array('WC_Verifone_Notice', 'render'), 15);
+			add_action('wp_login', array('WC_Verifone_Notice', 'clearAllNotices') );
+			add_action('wp_logout', array('WC_Verifone_Notice', 'clearAllNotices') );
+
+			/**
+			 * Temporary call to home for getting an notice when new version is available.
+			 */
+			add_action('admin_init', function() {
+				if (!function_exists('sodium_crypto_sign_verify_detached')) {
+					return;
+				}
+
+				$transient_key = 'wc_verifone_new_version_notice';
+				$transient_lifetime = HOUR_IN_SECONDS * 6;
+                $failed_response_transient_lifetime = $transient_lifetime / 2;
+                $transient = get_transient($transient_key);
+
+                // Add the notice if transient has actual value instead of empty
+                if (!empty($transient) && is_array($transient)) {
+					$locale = get_user_locale();
+					$notice = isset($transient[$locale]) ? $transient[$locale] : $transient['default'];
+					WC_Verifone_Notice::addInfo($notice);
+                    return;
+				}
+
+				// Skip if transient is set, this limits the amount of requests to the API
+				if (false !== $transient) {
+                    return;
+                }
+
+				// Send WooCommerce version to the API
+				$response = wp_remote_get('https://www.bluecommerce.fi/wp-json/wc-plugin-version-notice/v1/check');
+				if(is_wp_error($response)) {
+                    set_transient($transient_key, '', $failed_response_transient_lifetime);
+					return;
+				}
+
+				$body = wp_remote_retrieve_body($response);
+				$data = json_decode($body, true);
+
+                if(!isset($data['signature']) || !$data['signature']) {
+                    set_transient($transient_key, '', $failed_response_transient_lifetime);
+                    return;
+                }
+
+				if(!sodium_crypto_sign_verify_detached(base64_decode($data['signature']), json_encode($data['message']), base64_decode('T9VuhncQTaGL/Me4WeS0MCL4iBYUGYcloHN0ifZgGJU='))) {
+					set_transient($transient_key, '', $failed_response_transient_lifetime);
+					return;
+				}
+
+				if(!isset($data['message']) || !$data['message']) {
+                    set_transient($transient_key, '', $failed_response_transient_lifetime);
+					return;
+				}
+
+				if(is_array($data['message'])) {
+					foreach($data['message'] as $key => $message) {
+						$data['message'][$key] = wp_kses_post($message);
+					}
+				}
+
+				set_transient($transient_key, $data['message'], $transient_lifetime);
+			});
         }
 
         /**
@@ -226,14 +294,6 @@ if (!class_exists('WC_Verifone')) :
         }
 
         /**
-         * Display any notices we've collected thus far (e.g. for connection, disconnection)
-         */
-        public function adminNotices()
-        {
-            WC_Verifone_Notice::render();
-        }
-
-        /**
          * Initialize the gateway. Called very early - in the context of the plugins_loaded action
          *
          * @since 1.0.0
@@ -365,8 +425,13 @@ if (!class_exists('WC_Verifone')) :
 
         public function frontendScripts()
         {
+			$config = WC_Verifone_Config::getInstance();
+
             wp_enqueue_style('verifonepayment-styles_f', plugins_url('assets/css/verifonepayment-styles_f.css', WC_VERIFONE_MAIN_FILE), array(), WC_VERIFONE_VERSION);
             wp_enqueue_script('woocommerce_verifone_admin', plugins_url('assets/js/verifone.js', WC_VERIFONE_MAIN_FILE), array(), WC_VERIFONE_VERSION, true);
+			wp_localize_script('woocommerce_verifone_admin', 'woocommerceVerifone', array(
+				'usePaymentMethodLogos' => $config->displayMethodLogos(),
+			));
         }
 
         public function woocommerceGetCustomerPaymentTokens($tokens, $customer_id, $gateway_id)

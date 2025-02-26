@@ -390,4 +390,8 @@ class WC_Verifone_Config extends WC_Settings_API
         return file_get_contents($this->getPaymentPublicKeyPath());
     }
 
+	public function displayMethodLogos() {
+		return (int) $this->getData('display_method_logos') == 1;
+	}
+
 }

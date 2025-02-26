@@ -1,6 +1,24 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.5.0] 2024.12.4
+
+### Added
+- Payment method logo selector
+- Apple Pay support
+- Cleaner settings page
+- Functionality to show plugin new version notice
+- Filters to activate depracated payment methods
+
+### Changed
+- Method of ensuring that payment methods are in order legislation requires
+- Updated payment method names and logos to latest versions
+- Separated payment methods to own lists and depracated old methods
+- Way of storing notices, as the previous method caused issues with caches
+
+### Fixed
+- Translatable strings loading too early causing issues on WP 6.7, see core #44937
+
 ## [1.4.0] 2024.8.6
 
 ### Added

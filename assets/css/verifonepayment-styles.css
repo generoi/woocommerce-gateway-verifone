@@ -8,6 +8,33 @@ textarea#woocommerce_verifone_public_key {
     height: 10em;
 }
 
+#woocommerce_verifone_section2::before,
+#woocommerce_verifone_section3::before,
+#woocommerce_verifone_section4::before,
+#woocommerce_verifone_section5::before {
+	content: '';
+	display: block;
+	max-width: 635px;
+	margin-bottom: 1rem;
+	border-top: 1px solid #c3c4c7;
+}
+
+#woocommerce_verifone_section2,
+#woocommerce_verifone_section3,
+#woocommerce_verifone_section4,
+#woocommerce_verifone_section5 {
+	margin-top: 2rem;
+}
+
+p.description {
+	max-width: 400px;
+}
+
+/* make long select2 dropdown more usable */
+#select2-woocommerce_verifone_payment_methods-results li[data-selected="true"] {
+	display: none;
+}
+
 /* The Modal (background) */
 .verifone_summary_modal {
     display: none; /* Hidden by default */

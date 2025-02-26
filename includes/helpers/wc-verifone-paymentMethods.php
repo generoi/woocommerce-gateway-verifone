@@ -28,48 +28,75 @@ class WC_Verifone_PaymentMethods
      *
      * @return array
      */
-    public static function getPaymentMethodsArray()
-    {
-        return [
-            'all' => ['type' => self::TYPE_ALL, 'name' => 'All in one'],
-            'visa' => ['type' => self::TYPE_CARD, 'name' => 'VISA', 'display_name' => 'Visa'],
-            'master-card' => ['type' => self::TYPE_CARD, 'name' => 'MASTER_CARD', 'display_name' => 'Mastercard'],
-            'dankort' => ['type' => self::TYPE_CARD, 'name' => 'DANKORT', 'display_name' => 'Dankort'],
-            'amex' => ['type' => self::TYPE_CARD, 'name' => 'AMEX', 'display_name' => 'American Express'],
-            'diners' => ['type' => self::TYPE_CARD, 'name' => 'Diners'],
-            's-pankki-verkkomaksu' => ['type' => self::TYPE_BANK, 'name' => 'S_PANKKI_VERKKOMAKSU', 'display_name' => 'S-pankki'],
-            'aktia-maksu' => ['type' => self::TYPE_BANK, 'name' => 'AKTIA_MAKSU', 'display_name' => 'Aktia'],
-            'op-pohjola-verkkomaksu' => ['type' => self::TYPE_BANK, 'name' => 'OP_POHJOLA_VERKKOMAKSU', 'display_name' => 'OP-Pohjola'],
-            'nordea-e-payment' => ['type' => self::TYPE_BANK, 'name' => 'NORDEA_E_PAYMENT', 'display_name' => 'Nordea'],
-            'sampo-web-payment' => ['type' => self::TYPE_BANK, 'name' => 'SAMPO_WEB_PAYMENT', 'display_name' => 'Danske Bank'],
-            'handelsbanken-e-payment' => ['type' => self::TYPE_BANK, 'name' => 'HANDELSBANKEN_E_PAYMENT', 'display_name' => 'Handelsbanken'],
-            'alandsbanken-e-payment' => ['type' => self::TYPE_BANK, 'name' => 'ALANDSBANKEN_E_PAYMENT', 'display_name' => 'Ålandsbanken'],
-            'nordea-se-db' => ['type' => self::TYPE_BANK, 'name' => 'NORDEA_SE_DB', 'display_name' => ''],
-            'handelsbanken-se-db' => ['type' => self::TYPE_BANK, 'name' => 'HANDELSBANKEN_SE_DB', 'display_name' => ''],
-            'swedbank-se-db' => ['type' => self::TYPE_BANK, 'name' => 'SWEDBANK_SE_DB', 'display_name' => ''],
-            'seb-se-db' => ['type' => self::TYPE_BANK, 'name' => 'SEB_SE_DB', 'display_name' => ''],
-            'bank-axess' => ['type' => self::TYPE_BANK, 'name' => 'BANK_AXESS', 'display_name' => ''],
-            'nordea-dk-db' => ['type' => self::TYPE_BANK, 'name' => 'NORDEA_DK_DB', 'display_name' => ''],
-            'danske-netbetaling' => ['type' => self::TYPE_BANK, 'name' => 'DANSKE_NETBETALING', 'display_name' => ''],
-            'saastopankin-verkkomaksu' => ['type' => self::TYPE_BANK, 'name' => 'SAASTOPANKIN_VERKKOMAKSU', 'display_name' => 'Säästöpankki'],
-            'pop-pankin-verkkomaksu' => ['type' => self::TYPE_BANK, 'name' => 'POP_PANKIN_VERKKOMAKSU', 'display_name' => 'POP Pankki'],
-            'oma-saastopankin-verkkomaksu' => ['type' => self::TYPE_BANK, 'name' => 'OMA_SAASTOPANKIN_VERKKOMAKSU', 'display_name' => 'Oma Säästöpankki'],
-            'svea-webpay-installment' => ['type' => self::TYPE_INVOICE, 'name' => 'SVEA_WEBPAY_INSTALLMENT', 'display_name' => 'Svea Osamaksu'],
-            'svea-webpay-invoice' => ['type' => self::TYPE_INVOICE, 'name' => 'SVEA_WEBPAY_INVOICE', 'display_name' => 'Svea Lasku'],
-            'handelsbanken-se-account' => ['type' => self::TYPE_INVOICE, 'name' => 'HANDELSBANKEN_SE_ACCOUNT', 'display_name' => ''],
-            'handelsbanken-se-invoice' => ['type' => self::TYPE_INVOICE, 'name' => 'HANDELSBANKEN_SE_INVOICE', 'display_name' => ''],
-            'invoice-collector' => ['type' => self::TYPE_INVOICE, 'name' => 'INVOICE_COLLECTOR', 'display_name' => 'Collector Lasku'],
-            'euroloan-invoice' => ['type' => self::TYPE_INVOICE, 'name' => 'EUROLOAN_INVOICE', 'display_name' => 'Euroloan Lasku'],
-            'enterpay-invoice' => ['type' => self::TYPE_INVOICE, 'name' => 'ENTERPAY_INVOICE', 'display_name' => 'Enterpay Yrityslasku’'],
-            'paypal' => ['type' => self::TYPE_INVOICE, 'name' => 'PAYPAL', 'display_name' => 'PayPal'],
-            'swish' => ['type' => self::TYPE_ELECTRONIC, 'name' => 'SWISH', 'display_name' => 'Swish'],
-            'siirto' => ['type' => self::TYPE_ELECTRONIC, 'name' => 'SIIRTO', 'display_name' => 'Siirto'],
-            'afterpay-invoice' => ['type' => self::TYPE_INVOICE, 'name' => 'AFTERPAY_INVOICE', 'display_name' => 'Riverty'],
-            'mobilepay' => ['type' => self::TYPE_BANK, 'name' => 'MOBILEPAY', 'display_name' => 'MobilePay'],
-            'vipps' => ['type' => self::TYPE_BANK, 'name' => 'VIPPS', 'display_name' => 'VIPPS'],
-            'masterpass' => ['type' => self::TYPE_BANK, 'name' => 'MASTERPASS', 'display_name' => 'MasterPass'],
-        ];
+    public static function getPaymentMethodsArray() {
+        return WC_Verifone_PaymentMethodsArray::getAllMethods();
     }
+
+	public static function getPaymentMethodsOrder() {
+		$methods = self::getPaymentMethodsArray();
+
+		// In which order different types of payment methods should be displayed
+		$type_order = [
+			self::TYPE_ALL,
+			self::TYPE_BANK,
+			self::TYPE_ELECTRONIC,
+			self::TYPE_CARD,
+			self::TYPE_INVOICE,
+		];
+
+		/**
+		 * Have few exceptions for the order.
+		 * Like mobilepay and vipps are typed as bank but should be displayed as electronic.
+		 * Paypal is typed as invoice but should be displayed as electronic.
+		 * Masterpass is typed as bank but should be displayed as card.
+		 */
+		$exceptions = [
+			'mobilepay' => self::TYPE_ELECTRONIC,
+			'vipps' => self::TYPE_ELECTRONIC,
+			'paypal' => self::TYPE_ELECTRONIC,
+			'masterpass' => self::TYPE_CARD,
+		];
+
+		// Change the type of the exceptions for ordering
+		foreach($methods as $code => $method) {
+			if(isset($exceptions[$code])) {
+				$methods[$code]['type'] = $exceptions[$code];
+			}
+		}
+
+		// Order the methods
+        uasort($methods, function($a, $b) use ($type_order) {
+            $typeComparison = array_search($a['type'], $type_order) - array_search($b['type'], $type_order);
+            if ($typeComparison === 0) {
+                return strcmp($a['name'], $b['name']);
+            }
+            return $typeComparison;
+        });
+
+		// We just need the keys of the methods
+		return array_keys($methods);
+	}
+
+	public static function orderPaymentMethods($methods) {
+		$order = self::getPaymentMethodsOrder();
+
+		$orderedMethods = [];
+		foreach($order as $code) {
+			if(isset($methods[$code])) {
+				$orderedMethods[$code] = $methods[$code];
+			}
+		}
+
+		// Add the rest of the methods
+		foreach($methods as $code => $method) {
+			if(!isset($orderedMethods[$code])) {
+				$orderedMethods[$code] = $method;
+			}
+		}
+
+		return $orderedMethods;
+	}
+
 
     /**
      * Get payment method display name (translated)
@@ -91,6 +118,20 @@ class WC_Verifone_PaymentMethods
         return '';
     }
 
+	public static function getPaymentMethodLogo($code) {
+		$methods = self::getPaymentMethodsArray();
+        if (isset($methods[$code])) {
+			$filename = $methods[$code]['logoname'];
+			if (empty($filename)) {
+				return '';
+			}
+
+			return plugins_url('assets/img/payment-methods/' . $filename . '.png', WC_VERIFONE_MAIN_FILE);
+		}
+
+		return '';
+	}
+
     /**
      * Get list with all payment methods configured in Verifone
      *
@@ -104,7 +145,12 @@ class WC_Verifone_PaymentMethods
             return ['all'];
         }
 
-        return json_decode($methods, true);
+        $methods = json_decode($methods, true);
+
+		// Order payment methods
+		$methods = array_intersect(self::getPaymentMethodsOrder(), $methods);
+
+		return $methods;
     }
 
     public static function getSelectPaymentMethods()
@@ -133,6 +179,14 @@ class WC_Verifone_PaymentMethods
             $methods[$code]['code'] = $code;
             $methods[$code]['displayName'] = self::getPaymentMethodDisplayName($code);
         }
+
+		// Order payment methods
+		$methods = self::orderPaymentMethods($methods);
+
+		// Add payment method logos
+		foreach($methods as $key => $method) {
+			$methods[$key]['logo'] = self::getPaymentMethodLogo($key);
+		}
 
         return $methods;
     }

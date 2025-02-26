@@ -12,6 +12,20 @@ jQuery(function ($) {
          */
         init: function () {
 
+					$(document).ready(function() {
+							$('#woocommerce_verifone_payment_methods').selectWoo({
+								placeholder: window.wp.i18n.__('Select payment methods in use', 'wc-verifone')
+							});
+
+							var selectAllLink = $('#verifone-activate-all-payment-methods-trigger');
+							selectAllLink.on('click', function(event) {
+									event.preventDefault();
+									var selectWooField = $('#woocommerce_verifone_payment_methods');
+									selectWooField.find('option').prop('selected', true);
+									selectWooField.trigger('change');
+							});
+					});
+
             $(document.body).on('click', '#verifone-refresh-payment-methods-trigger', function (e) {
                 e.stopPropagation();
 

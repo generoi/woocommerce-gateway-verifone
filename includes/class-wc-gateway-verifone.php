@@ -28,6 +28,8 @@ class WC_Gateway_Verifone extends WC_Payment_Gateway
 
     protected $_instance = null;
 
+	public $is_checkout_block = false;
+
     public function __construct()
     {
 
@@ -37,6 +39,7 @@ class WC_Gateway_Verifone extends WC_Payment_Gateway
         /* translators: 1: a href link 2: closing href */
         $this->method_description = sprintf(__('Verifone payment. For more information please see %1$sVerifone page%2$s.', WC_VERIFONE_DOMAIN), '<a href="https://verifone.fi">', '</a>');
         $this->has_fields = true;
+		$this->is_checkout_block = false;
 
         if (file_exists(plugin_dir_path(__DIR__) . 'assets/img/verifonepayment-logo.png')) {
             $this->icon = plugins_url('assets/img/verifonepayment-logo.png', WC_VERIFONE_MAIN_FILE);
@@ -96,15 +99,29 @@ class WC_Gateway_Verifone extends WC_Payment_Gateway
     public function payment_fields()
     {
 
-        if (is_checkout()) {
+        if (is_checkout() || $this->is_checkout_block ) {
 
             $saved = [];
+			$paymentMethods = WC_Verifone_PaymentMethods::getAvailablePaymentMethods();
+			$usePaymentMethodLogos = $this->_verifoneConfig->displayMethodLogos();
 
-            if (get_current_user_id()) {
+            if (get_current_user_id() ) {
                 $saved = WC_Verifone_PaymentMethods::getSavedPaymentMethods(get_current_user_id());
             }
 
-            $paymentMethods = array_merge(WC_Verifone_PaymentMethods::getAvailablePaymentMethods(), $saved);
+			/**
+			 * On block based checkout, saved methods are shown as separate payment option.
+			 * On legacy checkout when logos are used, saved methods are listed above other methods.
+			 */
+			if ( $usePaymentMethodLogos ) {
+				$paymentMethods = array(
+					'methods' => $paymentMethods,
+					'saved' => $this->is_checkout_block ? [] : $saved,
+				);
+			} else {
+				$paymentMethods = array_merge($paymentMethods, $saved);
+			}
+
 
             $messages = [
                 'selectMethod' => __('Select payment method', WC_VERIFONE_DOMAIN),
@@ -123,8 +140,11 @@ class WC_Gateway_Verifone extends WC_Payment_Gateway
                 'paymentMethods' => $paymentMethods
             ];
 
-            WC_Verifone_Tpl::render($context, WC_Verifone_Tpl::PAYMENT_METHODS_FORM);
-
+			if ( $usePaymentMethodLogos ) {
+				WC_Verifone_Tpl::render($context, WC_Verifone_Tpl::PAYMENT_METHOD_LOGOS_FORM);
+			} else {
+				WC_Verifone_Tpl::render($context, WC_Verifone_Tpl::PAYMENT_METHODS_FORM);
+			}
         } elseif (is_add_payment_method_page()) {
             echo __('You will be redirect to Verifone Payment Service to process adding payment card.', WC_VERIFONE_DOMAIN);
         }
@@ -210,7 +230,16 @@ class WC_Gateway_Verifone extends WC_Payment_Gateway
         $woocommerce->cart->empty_cart();
 
         $paymentMethod = filter_input(INPUT_POST, 'verifone-payment-method');
+		if ( empty( $paymentMethod ) && isset( $_POST['verifonepaymentmethod'] ) ) {
+			// Support for payment method selection on the checkout block
+			$paymentMethod = sanitize_text_field( $_POST['verifonepaymentmethod'] );
+		}
+
         $savePaymentMethod = filter_input(INPUT_POST, 'verifone-save-payment-method');
+		if ( empty( $savePaymentMethod ) && isset( $_POST['verifonepaymentremembermethod'] ) ) {
+			// Support for payment method selection on the checkout block
+			$savePaymentMethod = sanitize_text_field( $_POST['verifonepaymentremembermethod'] );
+		}
 
         $params = array(
             'order_id' => $orderId,

@@ -21,11 +21,15 @@ class WC_Verifone_Settings
     {
 
         $settings = array(
-            'summary' => array(
-                'title' => '<a href="#summary-verifone" id="verifone-summary-modal-trigger">' . __('Display configuration summary', WC_VERIFONE_DOMAIN) . '</a>',
+			// Debug settings
+			'summary' => array(
+                'title' => '',
                 'type' => 'title',
+				'description' => '<a href="#summary-verifone" id="verifone-summary-modal-trigger">' . __('Display configuration summary', WC_VERIFONE_DOMAIN) . '</a>',
                 'desc_tip' => true
             ),
+
+			// Basic settings
             'enabled' => array(
                 'title' => __('Enable/Disable', WC_VERIFONE_DOMAIN),
                 'type' => 'checkbox',
@@ -62,6 +66,139 @@ class WC_Verifone_Settings
                 'desc_tip' => self::DESC_TIP,
                 'default' => 'demo-merchant-agreement'
             ),
+
+			// Payment methods
+			'section2' => array(
+				'title' => __('Payment method settings', WC_VERIFONE_DOMAIN),
+				'type' => 'title',
+				'desc_tip' => self::DESC_TIP
+			),
+            'payment_methods' => array(
+                'title' => __('Available payment methods', WC_VERIFONE_DOMAIN),
+                'type' => 'multiselect',
+                'description' => '<a href="" id="verifone-activate-all-payment-methods-trigger">' . __('Select all', WC_VERIFONE_DOMAIN) . '</a> | <a href="#refresh" id="verifone-refresh-payment-methods-trigger">' . __('Refresh Payment Methods', WC_VERIFONE_DOMAIN) . '</a>',
+                'desc_tip' => self::DESC_TIP,
+                'options' => WC_Verifone_System::getPaymentMethodsOptions(),
+				'default' => 'all', // Make all in one method default so the gateway will work even if no method is selected, applies only to new installations
+            ),
+            'allow_to_save_cc' => array(
+                'title' => __('Allow to save Credit Cards', WC_VERIFONE_DOMAIN),
+                'type' => 'select',
+                'description' => null,
+                'desc_tip' => self::DESC_TIP,
+                'default' => 0,
+                'options' => $this->_yesNoOptions()
+            ),
+            'save_masked_pan_number' => array(
+                'title' => __('Save masked PAN number', WC_VERIFONE_DOMAIN),
+                'type' => 'select',
+                'description' => null,
+                'desc_tip' => self::DESC_TIP,
+                'default' => 0,
+                'options' => $this->_yesNoOptions()
+            ),
+
+			// Display settings
+			'section3' => array(
+				'title' => __('Display settings', WC_VERIFONE_DOMAIN),
+				'type' => 'title',
+				'desc_tip' => self::DESC_TIP
+			),
+			'payment_page_language' => array(
+                'title' => __('Payment page language', WC_VERIFONE_DOMAIN),
+                'type' => 'select',
+                'description' => __('Select language which will be use on payment page', WC_VERIFONE_DOMAIN),
+                'desc_tip' => self::DESC_TIP,
+                'default' => 'fi_FI',
+                'options' => WC_Verifone_System::getLocaleOptions()
+            ),
+			'skip_confirmation_page' => array(
+                'title' => __('Skip confirmation page', WC_VERIFONE_DOMAIN),
+                'type' => 'select',
+                'description' => __('Return directly to shop after payment', WC_VERIFONE_DOMAIN),
+                'desc_tip' => self::DESC_TIP,
+                'default' => 1,
+                'options' => $this->_yesNoOptions()
+            ),
+			'remember_cc_info' => array(
+                'title' => __('Remember me info', WC_VERIFONE_DOMAIN),
+                'type' => 'textarea',
+				'css' => 'max-width:400px;',
+                'description' => __('Optional. Note in checkout after Remember payment method checkbox - for cards only', WC_VERIFONE_DOMAIN),
+                'desc_tip' => self::DESC_TIP,
+            ),
+            'payment_message' => array(
+                'title' => __('Payment message', WC_VERIFONE_DOMAIN),
+                'type' => 'textarea',
+				'css' => 'max-width:400px;',
+                'description' => __('Optional. Note in the checkout below the payment method select.', WC_VERIFONE_DOMAIN),
+                'desc_tip' => self::DESC_TIP,
+            ),
+			'display_method_logos' => array(
+                'title' => __('Display method logos', WC_VERIFONE_DOMAIN),
+                'type' => 'select',
+                'description' => __('Display payment method logos instead of dropdown', WC_VERIFONE_DOMAIN),
+                'desc_tip' => self::DESC_TIP,
+                'default' => 0,
+                'options' => $this->_yesNoOptions()
+            ),
+
+			// Advanced settings
+			'section4' => array(
+				'title' => __('Advanced settings', WC_VERIFONE_DOMAIN),
+				'type' => 'title',
+				'desc_tip' => self::DESC_TIP
+			),
+			'basket_item_sending' => array(
+                'title' => __('Basket Item Sending', WC_VERIFONE_DOMAIN),
+                'type' => 'select',
+                'description' => __('Select for which type of order should send items.', WC_VERIFONE_DOMAIN),
+                'desc_tip' => self::DESC_TIP,
+                'default' => 1,
+                'options' => WC_Verifone_System::getBasketItemsOptions()
+            ),
+            'combine_invoice_basket_items' => array(
+                'title' => __('Combine Invoice Basket Items', WC_VERIFONE_DOMAIN),
+                'type' => 'select',
+                'description' => __('Currently only available for invoice payment methods', WC_VERIFONE_DOMAIN),
+                'desc_tip' => self::DESC_TIP,
+                'default' => 0,
+                'options' => $this->_yesNoOptions()
+            ),
+            'external_customer_id_field' => array(
+                'title' => __('Use external customer id.', WC_VERIFONE_DOMAIN),
+                'type' => 'text',
+                'description' => __('If you want to use other field to match user in Verifone Payment service, please set this value (for example <strong>billing_phone</strong>). If you do not know what should be, please leave empty and contact with our service.', WC_VERIFONE_DOMAIN),
+                'desc_tip' => self::DESC_TIP,
+                'default' => ''
+            ),
+			'min_order_total' => array(
+                'title' => __('Minimum Order Total', WC_VERIFONE_DOMAIN),
+                'type' => 'text',
+                'description' => __('Leave empty to disable limit.', WC_VERIFONE_DOMAIN),
+                'desc_tip' => self::DESC_TIP,
+            ),
+            'max_order_total' => array(
+                'title' => __('Maximum Order Total', WC_VERIFONE_DOMAIN),
+                'type' => 'text',
+                'description' => __('Leave empty to disable limit.', WC_VERIFONE_DOMAIN),
+                'desc_tip' => self::DESC_TIP,
+            ),
+            'disable_rsa_blinding' => array(
+                'title' => __('Disable rsa blinding', WC_VERIFONE_DOMAIN),
+                'type' => 'select',
+                'description' => __('Define CRYPT_RSA_DISABLE_BLINDING as true in case of custom PHP build or PHP7 (experimental)', WC_VERIFONE_DOMAIN),
+                'desc_tip' => self::DESC_TIP,
+                'default' => 0,
+                'options' => $this->_yesNoOptions()
+            ),
+
+			// Payment service advanced settings
+			'section5' => array(
+				'title' => __('Payment service advanced settings', WC_VERIFONE_DOMAIN),
+				'type' => 'title',
+				'desc_tip' => self::DESC_TIP
+			),
             'key_handling_mode' => array(
                 'title' => __('Payment service key handling', WC_VERIFONE_DOMAIN),
                 'type' => 'select',
@@ -124,26 +261,10 @@ class WC_Verifone_Settings
                 'desc_tip' => self::DESC_TIP,
                 'default' => ''
             ),
-            'payment_page_language' => array(
-                'title' => __('Payment page language', WC_VERIFONE_DOMAIN),
-                'type' => 'select',
-                'description' => __('Select language which will be use on payment page', WC_VERIFONE_DOMAIN),
-                'desc_tip' => self::DESC_TIP,
-                'default' => 'fi_FI',
-                'options' => WC_Verifone_System::getLocaleOptions()
-            ),
             'validate_url' => array(
                 'title' => __('Check payment node availability', WC_VERIFONE_DOMAIN),
                 'type' => 'select',
                 'description' => __('Make a check that payment node is available', WC_VERIFONE_DOMAIN),
-                'desc_tip' => self::DESC_TIP,
-                'default' => 1,
-                'options' => $this->_yesNoOptions()
-            ),
-            'skip_confirmation_page' => array(
-                'title' => __('Skip confirmation page', WC_VERIFONE_DOMAIN),
-                'type' => 'select',
-                'description' => __('Return directly to shop after payment', WC_VERIFONE_DOMAIN),
                 'desc_tip' => self::DESC_TIP,
                 'default' => 1,
                 'options' => $this->_yesNoOptions()
@@ -155,108 +276,6 @@ class WC_Verifone_Settings
                 'desc_tip' => self::DESC_TIP,
                 'default' => ''
             ),
-            'basket_item_sending' => array(
-                'title' => __('Basket Item Sending', WC_VERIFONE_DOMAIN),
-                'type' => 'select',
-                'description' => __('Select for which type of order should send items.', WC_VERIFONE_DOMAIN),
-                'desc_tip' => self::DESC_TIP,
-                'default' => 1,
-                'options' => WC_Verifone_System::getBasketItemsOptions()
-            ),
-            'combine_invoice_basket_items' => array(
-                'title' => __('Combine Invoice Basket Items', WC_VERIFONE_DOMAIN),
-                'type' => 'select',
-                'description' => __('Currently only available for invoice payment methods', WC_VERIFONE_DOMAIN),
-                'desc_tip' => self::DESC_TIP,
-                'default' => 0,
-                'options' => $this->_yesNoOptions()
-            ),
-            'external_customer_id_field' => array(
-                'title' => __('Use external customer id.', WC_VERIFONE_DOMAIN),
-                'type' => 'text',
-                'description' => __('If you want to use other field to match user in Verifone Payment service, please set this value (for example <strong>billing_phone</strong>). If you do not know what should be, please leave empty and contact with our service.', WC_VERIFONE_DOMAIN),
-                'desc_tip' => self::DESC_TIP,
-                'default' => ''
-            ),
-            'refresh_payments' => array(
-                'title' => '<a href="#refresh" id="verifone-refresh-payment-methods-trigger">' . __('Refresh Payment Methods', WC_VERIFONE_DOMAIN) . '</a>',
-                'type' => 'title',
-                'description' => null,
-                'desc_tip' => self::DESC_TIP,
-            ),
-            'payment_methods' => array(
-                'title' => __('Available payment methods', WC_VERIFONE_DOMAIN),
-                'type' => 'multiselect',
-                'description' => null,
-                'desc_tip' => self::DESC_TIP,
-                'options' => WC_Verifone_System::getPaymentMethodsOptions()
-            ),
-            'allow_to_save_cc' => array(
-                'title' => __('Allow to save Credit Cards', WC_VERIFONE_DOMAIN),
-                'type' => 'select',
-                'description' => null,
-                'desc_tip' => self::DESC_TIP,
-                'default' => 0,
-                'options' => $this->_yesNoOptions()
-            ),
-            'save_masked_pan_number' => array(
-                'title' => __('Save masked PAN number', WC_VERIFONE_DOMAIN),
-                'type' => 'select',
-                'description' => null,
-                'desc_tip' => self::DESC_TIP,
-                'default' => 0,
-                'options' => $this->_yesNoOptions()
-            ),
-            'remember_cc_info' => array(
-                'title' => __('Remember me info', WC_VERIFONE_DOMAIN),
-                'type' => 'textarea',
-                'description' => __('Optional. Note in checkout after Remember payment method checkbox - for cards only', WC_VERIFONE_DOMAIN),
-                'desc_tip' => self::DESC_TIP,
-            ),
-            'payment_message' => array(
-                'title' => __('Payment message', WC_VERIFONE_DOMAIN),
-                'type' => 'textarea',
-                'description' => __('Optional. Note in the checkout below the payment method select.', WC_VERIFONE_DOMAIN),
-                'desc_tip' => self::DESC_TIP,
-            ),
-            'min_order_total' => array(
-                'title' => __('Minimum Order Total', WC_VERIFONE_DOMAIN),
-                'type' => 'text',
-                'description' => __('Leave empty to disable limit.', WC_VERIFONE_DOMAIN),
-                'desc_tip' => self::DESC_TIP,
-            ),
-            'max_order_total' => array(
-                'title' => __('Maximum Order Total', WC_VERIFONE_DOMAIN),
-                'type' => 'text',
-                'description' => __('Leave empty to disable limit.', WC_VERIFONE_DOMAIN),
-                'desc_tip' => self::DESC_TIP,
-            ),
-            'disable_rsa_blinding' => array(
-                'title' => __('Disable rsa blinding', WC_VERIFONE_DOMAIN),
-                'type' => 'select',
-                'description' => __('Define CRYPT_RSA_DISABLE_BLINDING as true in case of custom PHP build or PHP7 (experimental)', WC_VERIFONE_DOMAIN),
-                'desc_tip' => self::DESC_TIP,
-                'default' => 0,
-                'options' => $this->_yesNoOptions()
-            ),
-//            'order_status_pending' => array(
-//                'title' => __('New payment order status', WC_VERIFONE_DOMAIN),
-//                'type' => 'select',
-//                'description' => __('This setting cannot be changed due to WooCommerce built-in logic', WC_VERIFONE_DOMAIN),
-//                'desc_tip' => self::DESC_TIP,
-//                'default' => 'wc-pending',
-//                'options' => $this->_getOrderStatuses('pending'),
-//                'custom_attributes' => array('readonly' => 'readonly', 'disabled' => 'disabled')
-//            ),
-//            'order_status_processing' => array(
-//                'title' => __('Completed payment order status', WC_VERIFONE_DOMAIN),
-//                'type' => 'select',
-//                'description' => __('This setting cannot be changed due to WooCommerce built-in logic', WC_VERIFONE_DOMAIN),
-//                'desc_tip' => self::DESC_TIP,
-//                'default' => 'wc-processing',
-//                'options' => $this->_getOrderStatuses('processing'),
-//                'custom_attributes' => array('readonly' => 'readonly', 'disabled' => 'disabled')
-//            ),
         );
 
         return apply_filters('wc_verifone_settings', $settings);

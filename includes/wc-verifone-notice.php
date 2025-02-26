@@ -13,13 +13,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$oldSession = session_id();
-
-if ($oldSession == '') {
-    session_id('verifone-notice');
-    session_start();
-}
-
 class WC_Verifone_Notice
 {
     const SESSION_KEY = 'wc-verifone-gateway-notices';
@@ -33,6 +26,58 @@ class WC_Verifone_Notice
 
     protected static $_notices = [];
 
+	/**
+	 * Store notices in user meta.
+	 * This is used to store notices that are not displayed immediately.
+	 * This is useful for notices that are displayed after redirect.
+	 *
+	 * @param $notice
+	 * @param $type
+	 * @param boolean $isDismissible
+	 * @return void
+	 */
+	public static function storeNotice( $notice, $type, $isDismissible = false ) {
+		$current_user_id = get_current_user_id();
+		$notices = get_user_meta( $current_user_id, self::SESSION_KEY, true );
+		if ( ! is_array( $notices ) ) {
+			$notices = [];
+		}
+
+		$hash = sha1( $notice );
+		if ( ! isset( $notices[ $hash ] ) ) {
+			$notices[ $hash ] = [ 'type' => $type, 'content' => $notice, 'is-dismissible' => $isDismissible ];
+		}
+
+		update_user_meta( $current_user_id, self::SESSION_KEY, $notices );
+	}
+
+	/**
+	 * Get stored notices from user meta.
+	 *
+	 * @return array
+	 */
+	public static function getStoredNotices() {
+		$current_user_id = get_current_user_id();
+		$notices = get_user_meta( $current_user_id, self::SESSION_KEY, true );
+		if ( ! is_array( $notices ) ) {
+			$notices = [];
+		}
+
+		return $notices;
+	}
+
+	/**
+	 * Clear all stored notices.
+	 *
+	 * @return void
+	 */
+	public static function clearAllNotices() {
+		$user_id = get_current_user_id();
+		if ($user_id) {
+			update_user_meta( $user_id, self::SESSION_KEY, [] );
+		}
+	}
+
     /**
      * If method wc_add_notice is available (on frontend) then use it, if not then store in session.
      *
@@ -43,24 +88,23 @@ class WC_Verifone_Notice
      */
     public static function add($notice, $type, $isDismissible = false, $forceSession = false)
     {
-        if (!$forceSession && function_exists('wc_add_notice')) {
+        if (function_exists('wc_add_notice')) {
             wc_add_notice($notice, $type);
         } else {
-
-            if (!isset($_SESSION[self::SESSION_KEY])) {
-                $_SESSION[self::SESSION_KEY] = [];
-            }
-
-            $hash = sha1($notice);
-            if (!isset($_SESSION[self::SESSION_KEY][$hash])) {
-                $_SESSION[self::SESSION_KEY][$hash] = ['type' => $type, 'content' => $notice, 'is-dismissible' => $isDismissible];
-            }
-
+			if ( $forceSession ) {
+				self::storeNotice( $notice, $type, $isDismissible );
+			} else {
+				self::$_notices[] = [
+					'content' => $notice,
+					'type' => $type,
+					'is-dismissible' => $isDismissible
+				];
+			}
         }
     }
 
     /**
-     * Add success notice
+     * Add success notice.
      *
      * @param $notice
      * @param bool $isDismissible
@@ -72,7 +116,7 @@ class WC_Verifone_Notice
     }
 
     /**
-     * Add error notice
+     * Add error notice.
      *
      * @param $notice
      * @param bool $isDismissible
@@ -84,7 +128,7 @@ class WC_Verifone_Notice
     }
 
     /**
-     * Add warning notice
+     * Add warning notice.
      *
      * @param $notice
      * @param bool $isDismissible
@@ -96,7 +140,7 @@ class WC_Verifone_Notice
     }
 
     /**
-     * Add info notice
+     * Add info notice.
      *
      * @param $notice
      * @param bool $isDismissible
@@ -108,43 +152,19 @@ class WC_Verifone_Notice
     }
 
     /**
-     * Clear notices
-     */
-    public static function clear()
-    {
-        $_SESSION[self::SESSION_KEY] = [];
-    }
-
-    /**
-     * Unset session with notices
-     */
-    public static function unsetNotice()
-    {
-        unset($_SESSION[self::SESSION_KEY]);
-    }
-
-    /**
-     * Get all stored notices
-     *
-     * @return array
-     */
-    public static function get()
-    {
-        if (!isset($_SESSION[self::SESSION_KEY])) {
-            return [];
-        }
-
-        return $_SESSION[self::SESSION_KEY];
-    }
-
-    /**
-     * Render all notices and clear after render
+     * Render all notices and clear after render.
      */
     public static function render()
     {
         $html = '';
 
-        foreach (self::get() as $notice) {
+		$notices = self::$_notices;
+		$storedNotices = self::getStoredNotices();
+		if ( ! empty( $storedNotices ) ) {
+			$notices = array_merge( $notices, $storedNotices );
+		}
+
+        foreach ($notices as $notice) {
 
             $class = 'notice ' . self::NOTICE_PREFIX . $notice['type'];
             if ($notice['is-dismissible']) {
@@ -158,11 +178,6 @@ class WC_Verifone_Notice
 
         echo $html;
 
-        self::clear();
+        self::clearAllNotices();
     }
-
-}
-
-if (session_id() == 'verifone-notice') {
-    session_write_close();
 }
